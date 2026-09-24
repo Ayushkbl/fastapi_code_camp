@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from .. import models, schemas, utils
-from ..database import get_db
+from ..database import database_url, get_db
 
 router = APIRouter(
     prefix='/users',
@@ -20,6 +20,8 @@ def create_user(user: schemas.UserCreate, db: Annotated[Session, Depends(get_db)
 
     hashed_password = utils.hash_password(user.password)
     user.password = hashed_password
+    
+    print(f"Database URL : {database_url}")
     
     new_user = models.User(**user.model_dump())
     db.add(new_user)
