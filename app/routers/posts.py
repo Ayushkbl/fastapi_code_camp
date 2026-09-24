@@ -64,7 +64,18 @@ def create_post(post: schemas.PostCreate,
     db.commit()
     db.refresh(new_post)
     
-    return new_post
+    result_post = schemas.Post(
+            id=new_post.id,
+            title=new_post.title,
+            content=new_post.content,
+            published=new_post.published,
+            created_at=new_post.created_at,
+            user_id=new_post.user_id,
+            user=schemas.UserResponse(id=user.id, email=user.email, created_at=user.created_at),
+            votes=0
+        )
+    
+    return result_post
 
 @router.get('/{id}', response_model=schemas.Post)
 def get_post_by_id(id: int, 
