@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     secret_key: str
     algorithm: str
     access_token_expire_minutes: int
+    port: int = 8000
 
     model_config = SettingsConfigDict(
         env_file=".env",

@@ -1,9 +1,12 @@
 import time
 
 import psycopg2
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from psycopg2.extras import RealDictCursor
+
+from .config import settings
 
 # from . import models
 # from .database import engine
@@ -43,6 +46,15 @@ app.include_router(users.router)
 app.include_router(auth.router)
 app.include_router(votes.router)
 
+
+if __name__ == "__main__":
+    port = settings.port
+
+    uvicorn.run(
+        "app.main:app",
+        host="0.0.0.0",
+        port=port,
+    )
 
 
 
