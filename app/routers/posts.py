@@ -137,8 +137,24 @@ def update_post(id: int,
     post_query.update(post.model_dump(), synchronize_session=False) # type: ignore
     db.commit()
     db.refresh(updated_post)
+    
+    votes = (db.query(
+                        func.count(models.Vote.post_id).label("votes")
+                    ).filter(
+                        models.Vote.post_id == id
+                    )
+    ).scalar()
 
-    return updated_post
+    return schemas.Post(
+        id=updated_post.id,
+        title=updated_post.title,
+        content=updated_post.content,
+        published=updated_post.published,
+        created_at=updated_post.created_at,
+        user_id=updated_post.user_id,
+        user=schemas.UserResponse(id=user.id, email=user.email, created_at=user.created_at),
+        votes=int(votes)
+    )
 
 @router.delete('/posts/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, 
