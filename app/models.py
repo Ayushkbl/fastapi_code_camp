@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 
 from sqlalchemy import ForeignKey, PrimaryKeyConstraint
@@ -20,7 +22,7 @@ class Post(Base):
     # created_at = Column(TIMESTAMP(timezone=True), 
     #                     nullable=False, server_default=text('NOW()'))
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    user: Mapped["User"] = relationship(back_populates="posts")
+    user: Mapped[User] = relationship(back_populates="posts")
 
 
 class User(Base):
@@ -31,7 +33,7 @@ class User(Base):
     password: Mapped[str] = mapped_column(nullable=False)
     created_at: Mapped[datetime] = mapped_column(nullable=False, 
                                                  server_default=text('NOW()'))
-    posts: Mapped[list["Post"]] = relationship(
+    posts: Mapped[list[Post]] = relationship(
         back_populates="user", cascade="all, delete-orphan"
     )
 
