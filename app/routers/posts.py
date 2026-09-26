@@ -156,7 +156,7 @@ def update_post(id: int,
         votes=int(votes)
     )
 
-@router.delete('/posts/{id}', status_code=status.HTTP_204_NO_CONTENT)
+@router.delete('/{id}', status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(id: int, 
                 db: Annotated[Session, Depends(get_db)], 
                 user: Annotated[models.User, Depends(oauth2.get_current_user)]
