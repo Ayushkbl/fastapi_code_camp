@@ -6,6 +6,20 @@ on:
 
 jobs:
   job1:
+    env:
+      DATABASE_HOSTNAME=aws-0-ap-southeast-1.pooler.supabase.com
+      DATABASE_NAME=postgres
+      DATABASE_PORT=5432
+      DATABASE_USERNAME=postgres.pvjvbxleqvmmfiwbtwdp
+      DATABASE_PASSWORD=Sup3rB@s3@121
+      SECRET_KEY=d2dfc04c84758eaa4f919b87608047bd3d9ef32c8549c6ad78a300e98a29d0fb
+      ALGORITHM=HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES=60
+      TEST_DATABASE_HOSTNAME=localhost
+      TEST_DATABASE_NAME=postgres
+      TEST_DATABASE_PORT=5432
+      TEST_DATABASE_USERNAME=postgres
+      TEST_DATABASE_PASSWORD=test_db@123
     runs-on: ubuntu-latest
     steps:
       - name: pulling git repo
