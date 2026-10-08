@@ -124,8 +124,7 @@ def update_post(id: int,
                ):
     
     post_query = db.query(models.Post).filter(
-                        and_(models.Post.id == id, 
-                             models.Post.user_id == user.id)
+                            models.Post.id == id, 
                         )
     
     updated_post = post_query.first()
@@ -133,6 +132,12 @@ def update_post(id: int,
     if not updated_post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Post with id : {id} was not found")
+    
+    post_query = post_query.filter(models.Post.user_id == user.id)
+    updated_post = post_query.first()
+    if not updated_post:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="You don't have permission to update this post")
 
     post_query.update(post.model_dump(), synchronize_session=False) # type: ignore
     db.commit()
@@ -162,14 +167,18 @@ def delete_post(id: int,
                 user: Annotated[models.User, Depends(oauth2.get_current_user)]
                ):
     post_query = db.query(models.Post).filter(
-                        and_(models.Post.id == id,
-                             models.Post.user_id == user.id)
+                            models.Post.id == id
                         )
     deleted_post = post_query.first()
-
     if not deleted_post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Post with id : {id} was not found")
+    
+    post_query = post_query.filter(models.Post.user_id == user.id)
+    deleted_post = post_query.first()
+    if not deleted_post:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="You don't have permission to delete this post")
     
     post_query.delete(synchronize_session=False)
     db.commit()
