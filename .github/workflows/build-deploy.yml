@@ -88,9 +88,12 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          set -e
           whoami
           cd ~/app/src
+
           git pull
-          source .venv/bin/activate
-          uv sync
-          sudo systemctl restart gunicorn-fastapi
+
+          /home/ayush/.local/bin/uv
+          sudo -n systemctl restart gunicorn-fastapi
+          sudo -n systemctl status gunicorn-fastapi --no-pager
