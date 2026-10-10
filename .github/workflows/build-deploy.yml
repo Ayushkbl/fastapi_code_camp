@@ -91,4 +91,6 @@ jobs:
           whoami
           cd ~/app/src
           git pull
+          source .venv/bin/activate
+          uv sync
           sudo systemctl restart gunicorn-fastapi
