@@ -94,6 +94,6 @@ jobs:
 
           git pull
 
-          /home/ayush/.local/bin/uv
+          /home/ayush/.local/bin/uv sync
           sudo -n systemctl restart gunicorn-fastapi
           sudo -n systemctl status gunicorn-fastapi --no-pager
