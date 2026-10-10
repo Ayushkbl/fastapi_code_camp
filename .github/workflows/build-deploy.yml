@@ -91,7 +91,6 @@ jobs:
           set -e
           whoami
           cd ~/app/src
-
           git pull
 
           /home/ayush/.local/bin/uv sync
